@@ -31,6 +31,14 @@ backend:
     client: better-sqlite3
     connection: ':memory:'
   # workingDirectory: /tmp # Use this to configure a working directory for the scaffolder, defaults to the OS temp-dir
+  reading:
+    allow:
+      - host: localhost:8081
+      - host: localhost:8083
+      - host: localhost:9081
+      - host: localhost:9083
+      - host: localhost:10081
+      - host: localhost:10083
 
 integrations:
   github:
@@ -58,12 +66,19 @@ techdocs:
   builder: 'local' # Alternatives - 'external'
   generator:
     runIn: 'docker' # Alternatives - 'local'
+    dockerImage: noahhsu/kroki
+    pullImage: false
   publisher:
     type: 'local' # Alternatives - 'googleGcs' or 'awsS3'. Read documentation for using alternatives.
 
 auth:
   # see https://backstage.io/docs/auth/ to learn about auth providers
-  providers: {}
+  environment: development
+  providers:
+    github:
+      development:
+        clientId: ${GITHUB_CLIENT_ID}
+        clientSecret: ${GITHUB_CLIENT_SECRET}
 
 scaffolder:
   # see https://backstage.io/docs/features/software-templates/configuration for software template options
@@ -77,19 +92,8 @@ catalog:
   locations:
     # Local example data, file locations are relative to the backend process, typically `packages/backend`
     - type: file
-      target: ../../examples/entities.yaml
+      target: ../../../event-sourcing-order-poc/backstage/all.yaml
 
-    # Local example template
-    - type: file
-      target: ../../examples/template/template.yaml
-      rules:
-        - allow: [Template]
-
-    # Local example organizational data
-    - type: file
-      target: ../../examples/org.yaml
-      rules:
-        - allow: [User, Group]
 
     ## Uncomment these lines to add more example data
     # - type: url
