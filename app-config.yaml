@@ -3,7 +3,7 @@ app:
   baseUrl: http://localhost:3000
 
 organization:
-  name: My Company
+  name: Noah's Side Project
 
 backend:
   # Used for enabling authentication, secret is shared by all backend plugins
@@ -52,6 +52,12 @@ integrations:
     #   token: ${GHE_TOKEN}
 
 proxy:
+  '/api/v1/orders':
+    target: 'http://localhost:8081'
+    changeOrigin: true
+    pathRewrite:
+      '^/api/proxy/api/v1/orders': '/api/v1/orders'
+
   ### Example for how to add a proxy endpoint for the frontend.
   ### A typical reason to do this is to handle HTTPS and CORS for internal services.
   # '/test':
@@ -90,17 +96,8 @@ catalog:
   rules:
     - allow: [Component, System, API, Resource, Location]
   locations:
+    - type: url
+      target: https://github.com/NoahHsu/event-sourcing-order-poc/blob/master/backstage/all.yaml
     # Local example data, file locations are relative to the backend process, typically `packages/backend`
-    - type: file
-      target: ../../../event-sourcing-order-poc/backstage/all.yaml
-
-
-    ## Uncomment these lines to add more example data
-    # - type: url
-    #   target: https://github.com/backstage/backstage/blob/master/packages/catalog-model/examples/all.yaml
-
-    ## Uncomment these lines to add an example org
-    # - type: url
-    #   target: https://github.com/backstage/backstage/blob/master/packages/catalog-model/examples/acme-corp.yaml
-    #   rules:
-    #     - allow: [User, Group]
+#    - type: file
+#      target: ../../../event-sourcing-order-poc/backstage/all.yaml
