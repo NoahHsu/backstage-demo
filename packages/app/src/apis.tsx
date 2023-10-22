@@ -29,14 +29,11 @@ export const apis: AnyApiFactory[] = [
         const definitionWidgets = defaultDefinitionWidgets();
         return {
           getApiDefinitionWidget: (apiEntity: ApiEntity) => {
-            // custom rendering for sql
+            // custom rendering for solve cors issue
             if (apiEntity.spec.type === 'cors-openapi') {
               let regex = /"servers":\[{"url":"([a-z]+:\/\/[a-zA-Z-.:0-9]+)"/g;
-//               let regex = /"servers":\[{"url":"([a-z]+:\/\/[a-zA-Z-.]+):([0-9]+)"/g;
               let matches = regex.exec(apiEntity.spec.definition);
-              console.log(matches);
               let targetString = matches ? matches[1] : "";
-              console.log(targetString);
 
               apiEntity.spec.definition = apiEntity.spec.definition.replaceAll(
                regex,
