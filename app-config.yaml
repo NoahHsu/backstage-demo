@@ -52,11 +52,11 @@ integrations:
     #   token: ${GHE_TOKEN}
 
 proxy:
-  '/api/v1/orders':
+  '/http://localhost:8081':
     target: 'http://localhost:8081'
     changeOrigin: true
     pathRewrite:
-      '^/api/proxy/api/v1/orders': '/api/v1/orders'
+      '^/api/proxy/http://localhost:8081': 'http://localhost:8081'
 
   ### Example for how to add a proxy endpoint for the frontend.
   ### A typical reason to do this is to handle HTTPS and CORS for internal services.
